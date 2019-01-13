@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/home_post_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_post_pics"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="false"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="16dp"
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:text="Description" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/home_post_pic"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"
+            android:background="@drawable/userphoto" />
+
+        <TextView
+            android:id="@+id/home_post_usr_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/home_post_pic"
+            android:layout_toRightOf="@+id/home_post_pic"
+            android:text="Username"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/home_post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_post_usr_name"
+            android:layout_toRightOf="@+id/home_post_pic"
+            android:text="Date and time"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/home_post_pics"
+            android:layout_width="match_parent"
+            android:layout_height="256dp"
+            android:layout_below="@+id/home_post_pic"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentBottom="false"
+            android:background="#747474"
+            android:scaleType="centerCrop" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

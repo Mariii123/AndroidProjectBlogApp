@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".SignUpActivity">
+
+    <ProgressBar
+        android:id="@+id/cProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:indeterminate="true"
+        android:progressBackgroundTint="@color/colorAccent"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/signUpName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
+            app:errorEnabled="true"
+            app:hintEnabled="true"
+
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_text"
+                android:drawableRight="@drawable/ic_person_black_24dp"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/signUpEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email Address"
+            app:errorEnabled="true"
+
+            app:hintEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_text"
+                android:drawableRight="@drawable/ic_email_black_24dp"
+                android:drawablePadding="8dp"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/signUpPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:hint="Password"
+            app:errorEnabled="true"
+            app:hintEnabled="true"
+            app:passwordToggleEnabled="true">
+
+            <android.support.design.widget.TextInputEditText
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_text"
+                android:drawablePadding="8dp"
+                android:inputType="textPassword"
+                android:padding="12dp"
+                android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/signUpBtn"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_btn"
+            android:onClick="signUp"
+            android:text="Create Account"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/signUpInBtn"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_btn"
+            android:onClick="signUpIn"
+            android:text="Already have a Account"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</RelativeLayout>

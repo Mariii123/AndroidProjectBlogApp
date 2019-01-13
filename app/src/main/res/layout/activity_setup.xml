@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".SetupActivity">
+
+    <ProgressBar
+        android:id="@+id/setup_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/setup_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/userphoto" />
+
+        <EditText
+            android:id="@+id/setup_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/setup_pic"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_text"
+            android:hint="Name"
+            android:padding="8dp"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/setup_save"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@id/setup_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_btn"
+            android:text="Save"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</RelativeLayout>
