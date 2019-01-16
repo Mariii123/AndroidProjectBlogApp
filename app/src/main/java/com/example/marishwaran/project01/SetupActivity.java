@@ -20,7 +20,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
@@ -55,6 +54,7 @@ public class SetupActivity extends AppCompatActivity {
         sProgress = findViewById(R.id.setup_progress);
         mStorage = FirebaseStorage.getInstance().getReference();
         firestore = FirebaseFirestore.getInstance();
+        showMessage("Update your profile here");
         sImg.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -77,7 +77,6 @@ public class SetupActivity extends AppCompatActivity {
                             filePath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    showMessage("" + uri);
                                     Map<String, Object> userMap = new HashMap<>();
                                     userMap.put("Username", user_name);
                                     userMap.put("Userimg", uri.toString());

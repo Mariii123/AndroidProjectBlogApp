@@ -20,6 +20,8 @@ public class SignInActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private TextInputLayout sEmail, sPass;
     private ProgressBar sprogress;
+    private long back_pressed;
+    Toast backToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,17 @@ public class SignInActivity extends AppCompatActivity {
         sPass = findViewById(R.id.signInPass);
         sprogress = findViewById(R.id.signInProgress);
     }
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
 
+        }
+        back_pressed = System.currentTimeMillis();
+        backToast = Toast.makeText(getApplicationContext(), "Press again to exit", Toast.LENGTH_LONG);
+        backToast.show();
+    }
     boolean validateEmail() {
         String email = sEmail.getEditText().getText().toString().trim();
         if (email.isEmpty()) {

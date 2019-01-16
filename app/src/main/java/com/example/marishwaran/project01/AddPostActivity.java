@@ -64,6 +64,7 @@ public class AddPostActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
         getSupportActionBar().setTitle("Add Post");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         img = findViewById(R.id.add_post_img);
         post = findViewById(R.id.add_post_btn);
         desc = findViewById(R.id.add_post_desc);
@@ -145,7 +146,7 @@ public class AddPostActivity extends AppCompatActivity {
     private void openImgChooser() {
         Intent i = new Intent();
         i.setAction(Intent.ACTION_GET_CONTENT);
-        i.setType("image/*");
+        i.setType("*/*");
         startActivityForResult(i, PCODE);
     }
 }

@@ -46,7 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout sPass;
     private ProgressBar sProgress;
     FirebaseUser cUser;
-
+    private long back_pressed;
+    Toast backToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +113,17 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         }
     }
+    @Override
+    public void onBackPressed() {
+        if (back_pressed + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
 
+        }
+        back_pressed = System.currentTimeMillis();
+        backToast = Toast.makeText(getApplicationContext(), "Press again to exit", Toast.LENGTH_LONG);
+        backToast.show();
+    }
     public void signUp(View view) {
         if (!validateName() | !validateEmail() | !validatePass()) {
             return;
@@ -132,9 +143,9 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onSuccess(Void aVoid) {
                             showMessage("Successfully created");
                             sProgress.setVisibility(View.INVISIBLE);
-                            Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(SignUpActivity.this, SetupActivity.class);
                             startActivity(intent);
-                            finish();
+
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

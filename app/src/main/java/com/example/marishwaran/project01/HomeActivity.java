@@ -5,10 +5,17 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -52,18 +59,29 @@ public class HomeActivity extends AppCompatActivity {
     private MyAdapter blogAdapter;
     private DocumentSnapshot lastVisibe;
     private Boolean isPageFirstLoaded = true;
+    private long back_pressed;
+    Toast backToast;
     //NavDrawer Contents
     private TextView nav_name;
     private TextView nav_mail;
     private ImageView nav_img;
     private String uid;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        drawer = findViewById(R.id.main_drawer);
         navView = findViewById(R.id.nav_view);
         mToolbar = findViewById(R.id.main_toolbar);
-        mToolbar.setTitle("Home");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("Home");
+        toggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         uid = mAuth.getCurrentUser().getUid();
@@ -88,6 +106,10 @@ public class HomeActivity extends AppCompatActivity {
                         Intent setup = new Intent(HomeActivity.this, SetupActivity.class);
                         startActivity(setup);
                         return true;
+                    case R.id.feedback:
+                        Intent feed = new Intent(HomeActivity.this, FeedbackActivity.class);
+                        startActivity(feed);
+                        return true;
                     case R.id.logout:
                         mAuth.signOut();
                         Intent signUp = new Intent(HomeActivity.this, SignUpActivity.class);
@@ -109,7 +131,6 @@ public class HomeActivity extends AppCompatActivity {
                 super.onScrolled(recyclerView, dx, dy);
                 Boolean reachedBottom = !recyclerView.canScrollVertically(1);
                 if (reachedBottom){
-                    showMessage("Reached Bottom");
                     loadMorePost();
                 }
             }
@@ -157,6 +178,22 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            if (back_pressed + 2000 > System.currentTimeMillis()){
+                backToast.cancel();
+                super.onBackPressed();
+            }
+            back_pressed = System.currentTimeMillis();
+            backToast = Toast.makeText(HomeActivity.this, "Press again to exit", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         if (mUser == null) {
@@ -186,16 +223,20 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)){
+            return true;
+        }
+         return super.onOptionsItemSelected(item);
+    }
+
     private void updateUI() {
         Intent i = new Intent(HomeActivity.this, SignInActivity.class);
         startActivity(i);
         finish();
     }
-    void replaceFragment(android.support.v4.app.Fragment fragment){
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, fragment);
-        fragmentTransaction.commit();
-    }
+
     private void showMessage(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
