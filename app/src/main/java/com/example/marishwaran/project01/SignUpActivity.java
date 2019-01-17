@@ -50,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseUser cUser;
     private long back_pressed;
     Toast backToast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser cUser = mAuth.getCurrentUser();
-        if (cUser != null){
+        if (cUser != null) {
             Intent home = new Intent(SignUpActivity.this, HomeActivity.class);
             startActivity(home);
             finish();
@@ -116,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
             return true;
         }
     }
+
     @Override
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) {
@@ -127,6 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
         backToast = Toast.makeText(getApplicationContext(), "Press again to exit", Toast.LENGTH_LONG);
         backToast.show();
     }
+
     public void signUp(View view) {
         if (!validateName() | !validateEmail() | !validatePass()) {
             return;
@@ -141,26 +144,12 @@ public class SignUpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser cUser = FirebaseAuth.getInstance().getCurrentUser();
-                    UserProfileChangeRequest userProfile = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
-                    cUser.updateProfile(userProfile).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            showMessage("Successfully created");
-                            signup_btn.setClickable(true);
-                            sProgress.setVisibility(View.INVISIBLE);
-                            Intent intent = new Intent(SignUpActivity.this, SetupActivity.class);
-                            startActivity(intent);
+                    showMessage("Successfully created");
+                    signup_btn.setClickable(true);
+                    sProgress.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(SignUpActivity.this, SetupActivity.class);
+                    startActivity(intent);
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            showMessage(e.getMessage());
-                            signup_btn.setClickable(true);
-                            sProgress.setVisibility(View.INVISIBLE);
-
-                        }
-                    });
                 } else {
                     showMessage(task.getException().getMessage());
                     signup_btn.setClickable(true);
@@ -177,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         finish();
     }
 
-    void showMessage(String msg){
+    void showMessage(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

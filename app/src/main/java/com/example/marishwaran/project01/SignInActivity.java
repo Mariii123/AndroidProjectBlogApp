@@ -35,6 +35,17 @@ public class SignInActivity extends AppCompatActivity {
         sprogress = findViewById(R.id.signInProgress);
         signin_btn = findViewById(R.id.signInBtn);
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mAuth.getCurrentUser() != null){
+            Intent main = new Intent(SignInActivity.this, HomeActivity.class);
+            startActivity(main);
+            finish();
+        }
+    }
+
     @Override
     public void onBackPressed() {
         if (back_pressed + 2000 > System.currentTimeMillis()) {

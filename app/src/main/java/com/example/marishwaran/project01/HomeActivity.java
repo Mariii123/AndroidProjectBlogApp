@@ -114,10 +114,12 @@ public class HomeActivity extends AppCompatActivity implements MyAdapter.OnItemC
                         return true;
                     case R.id.logout:
                         mAuth.signOut();
-                        Intent signUp = new Intent(HomeActivity.this, SignUpActivity.class);
-                        startActivity(signUp);
+
+                        Intent signIn = new Intent(HomeActivity.this, SignInActivity.class);
+                        startActivity(signIn);
                         finish();
                         return true;
+
                 }
                 return false;
             }
@@ -164,26 +166,28 @@ public class HomeActivity extends AppCompatActivity implements MyAdapter.OnItemC
             }
         });
         Query firstQuery = firestore.collection("Posts").orderBy("Timestamp", Query.Direction.DESCENDING).limit(3);
-        firstQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firstQuery.addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (!documentSnapshots.isEmpty()) {
-                    if (isPageFirstLoaded) {
-                        lastVisibe = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
-                    }
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
-                            BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
-                            if (isPageFirstLoaded) {
-                                blog_list.add(blogPost);
-                            } else {
-                                blog_list.add(0, blogPost);
-
-                            }
-                            blogAdapter.notifyDataSetChanged();
+                if (documentSnapshots != null) {
+                    if (!documentSnapshots.isEmpty()) {
+                        if (isPageFirstLoaded) {
+                            lastVisibe = documentSnapshots.getDocuments().get(documentSnapshots.size() - 1);
                         }
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+                                BlogPost blogPost = doc.getDocument().toObject(BlogPost.class);
+                                if (isPageFirstLoaded) {
+                                    blog_list.add(blogPost);
+                                } else {
+                                    blog_list.add(0, blogPost);
+
+                                }
+                                blogAdapter.notifyDataSetChanged();
+                            }
+                        }
+                        isPageFirstLoaded = false;
                     }
-                    isPageFirstLoaded = false;
                 }
             }
         });

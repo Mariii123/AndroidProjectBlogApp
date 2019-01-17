@@ -111,7 +111,6 @@ public class SetupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 sProgress.setVisibility(View.VISIBLE);
-                sSave.setEnabled(false);
                 if (task.isSuccessful()) {
                     if (task.getResult().exists()) {
                         String user_name = task.getResult().getString("Username");
