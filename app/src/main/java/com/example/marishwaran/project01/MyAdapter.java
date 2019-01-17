@@ -3,9 +3,13 @@ package com.example.marishwaran.project01;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +37,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public List<BlogPost> blog_list;
     FirebaseFirestore firestore;
     public Context context;
+    private OnItemClickListener mListener;
+
     public MyAdapter(List<BlogPost> blog_list){
         this.blog_list = blog_list;
     }
@@ -75,34 +81,56 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return blog_list.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         View mView;
         TextView post_desc;
         ImageView post_img;
         TextView post_user;
         CircleImageView post_user_img;
         TextView post_date;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
+            itemView.setOnClickListener(this);
         }
-        public void setDesc(String desc){
+
+        public void setDesc(String desc) {
             post_desc = mView.findViewById(R.id.home_post_desc);
             post_desc.setText(desc);
         }
-        public void setPostImg(String imgUrl){
+
+        public void setPostImg(String imgUrl) {
             post_img = mView.findViewById(R.id.home_post_pics);
             Glide.with(context).load(imgUrl).into(post_img);
         }
-        public void setUserData(String name, String usrImg){
+
+        public void setUserData(String name, String usrImg) {
             post_user = mView.findViewById(R.id.home_post_usr_name);
             post_user.setText(name);
             post_user_img = mView.findViewById(R.id.home_post_pic);
             Glide.with(context).load(usrImg).into(post_user_img);
         }
+
         public void setPostTime(String dateString) {
             post_date = mView.findViewById(R.id.home_post_time);
             post_date.setText(dateString);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mListener != null){
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION){
+                    mListener.onItemClick(position);
+                }
+            }
+        }
+    }
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
     }
 }

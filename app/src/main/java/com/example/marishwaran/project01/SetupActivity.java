@@ -54,7 +54,6 @@ public class SetupActivity extends AppCompatActivity {
         sProgress = findViewById(R.id.setup_progress);
         mStorage = FirebaseStorage.getInstance().getReference();
         firestore = FirebaseFirestore.getInstance();
-        showMessage("Update your profile here");
         sImg.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -107,7 +106,7 @@ public class SetupActivity extends AppCompatActivity {
             }
         });
         sProgress.setVisibility(View.VISIBLE);
-        sSave.setEnabled(false);
+        sSave.setClickable(false);
         firestore.collection("Users").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -122,11 +121,14 @@ public class SetupActivity extends AppCompatActivity {
                         placeHolder.placeholder(R.drawable.userphoto);
                         Glide.with(SetupActivity.this).setDefaultRequestOptions(placeHolder).load(user_img).into(sImg);
                     }
+                    else {
+                        showMessage("Please Update your profile");
+                    }
                 } else {
                     showMessage("" + task.getException().getMessage());
                 }
                 sProgress.setVisibility(View.INVISIBLE);
-                sSave.setEnabled(true);
+                sSave.setClickable(true);
             }
         });
     }

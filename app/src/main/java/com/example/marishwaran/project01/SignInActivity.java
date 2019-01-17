@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ public class SignInActivity extends AppCompatActivity {
     private TextInputLayout sEmail, sPass;
     private ProgressBar sprogress;
     private long back_pressed;
+    Button signin_btn;
     Toast backToast;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class SignInActivity extends AppCompatActivity {
         sEmail = findViewById(R.id.signInEmail);
         sPass = findViewById(R.id.signInPass);
         sprogress = findViewById(R.id.signInProgress);
+        signin_btn = findViewById(R.id.signInBtn);
     }
     @Override
     public void onBackPressed() {
@@ -70,21 +73,22 @@ public class SignInActivity extends AppCompatActivity {
 
     public void signIn(View view) {
         if (validateEmail() | validatePass()) {
+            signin_btn.setClickable(false);
             sprogress.setVisibility(View.VISIBLE);
-
             String email = sEmail.getEditText().getText().toString();
             String pass = sPass.getEditText().getText().toString();
-
             mAuth.signInWithEmailAndPassword(email, pass.trim()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
+                        signin_btn.setClickable(true);
                         sprogress.setVisibility(View.INVISIBLE);
                         Intent i = new Intent(SignInActivity.this, HomeActivity.class);
                         startActivity(i);
                         finish();
                         Toast.makeText(SignInActivity.this, "Logged In", Toast.LENGTH_LONG).show();
                     } else {
+                        signin_btn.setClickable(true);
                         sprogress.setVisibility(View.INVISIBLE);
                         Toast.makeText(SignInActivity.this, " " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }

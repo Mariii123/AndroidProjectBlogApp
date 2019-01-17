@@ -59,11 +59,13 @@ public class AddFeedbackActivity extends AppCompatActivity {
                             showMessage("Feedback Added");
                             add_feed_progress.setVisibility(View.INVISIBLE);
                             add_feed.setClickable(true);
-                            add_feed.setEnabled(true);
                             Intent addFeed = new Intent(AddFeedbackActivity.this, FeedbackActivity.class);
                             startActivity(addFeed);
                         }
                     });
+                }
+                else {
+                    showMessage("Please write some description");
                 }
             }
         });
@@ -73,6 +75,9 @@ public class AddFeedbackActivity extends AppCompatActivity {
             if (task.isSuccessful()){
                 name = task.getResult().getString("Username");
                 img = task.getResult().getString("Userimg");
+            }
+            else {
+                showMessage(""+task.getException().getMessage());
             }
         }
     });

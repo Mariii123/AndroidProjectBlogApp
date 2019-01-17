@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
     private TextInputLayout sName;
     private TextInputLayout sEmail;
     private TextInputLayout sPass;
+    private Button signup_btn;
     private ProgressBar sProgress;
     FirebaseUser cUser;
     private long back_pressed;
@@ -58,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         sName = findViewById(R.id.signUpName);
         sEmail = findViewById(R.id.signUpEmail);
         sPass = findViewById(R.id.signUpPass);
+        signup_btn = findViewById(R.id.signUpBtn);
         sProgress = findViewById(R.id.cProgress);
     }
 
@@ -131,6 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
         String email = sEmail.getEditText().getText().toString();
         String pass = sPass.getEditText().getText().toString();
         final String name = sName.getEditText().getText().toString();
+        signup_btn.setClickable(false);
         sProgress.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -142,6 +146,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             showMessage("Successfully created");
+                            signup_btn.setClickable(true);
                             sProgress.setVisibility(View.INVISIBLE);
                             Intent intent = new Intent(SignUpActivity.this, SetupActivity.class);
                             startActivity(intent);
@@ -151,12 +156,14 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             showMessage(e.getMessage());
+                            signup_btn.setClickable(true);
                             sProgress.setVisibility(View.INVISIBLE);
 
                         }
                     });
                 } else {
                     showMessage(task.getException().getMessage());
+                    signup_btn.setClickable(true);
                     sProgress.setVisibility(View.INVISIBLE);
 
                 }

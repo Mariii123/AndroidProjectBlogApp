@@ -46,7 +46,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements MyAdapter.OnItemClickListener {
     private android.support.v7.widget.Toolbar mToolbar;
     Button signOut;
     FirebaseUser mUser;
@@ -68,6 +68,8 @@ public class HomeActivity extends AppCompatActivity {
     private String uid;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
+    private String name, img, mail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         blog_list = new ArrayList<>();
         post_view = findViewById(R.id.blog_post_list);
         blogAdapter = new MyAdapter(blog_list);
+        blogAdapter.setOnItemClickListener(this);
         post_view.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         post_view.setAdapter(blogAdapter);
         post_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -139,9 +142,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()){
-                    String name = task.getResult().getString("Username");
-                    String img = task.getResult().getString("Userimg");
-                    String mail = mAuth.getCurrentUser().getEmail();
+                    name = task.getResult().getString("Username");
+                    img = task.getResult().getString("Userimg");
+                    mail = mAuth.getCurrentUser().getEmail();
                     nav_name.setText(name);
                     Glide.with(getApplicationContext()).setDefaultRequestOptions
                             (new RequestOptions().placeholder(R.drawable.userphoto))
@@ -149,6 +152,15 @@ public class HomeActivity extends AppCompatActivity {
                     nav_mail.setText(mail);
 
                 }
+            }
+        });
+        nav_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this, DisplayImageActivity.class);
+                i.putExtra("Id", uid);
+                i.putExtra("Img", img);
+                startActivity(i);
             }
         });
         Query firstQuery = firestore.collection("Posts").orderBy("Timestamp", Query.Direction.DESCENDING).limit(3);
@@ -241,4 +253,12 @@ public class HomeActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public void onItemClick(int position) {
+        BlogPost post = blog_list.get(position);
+        Intent img = new Intent(HomeActivity.this, DisplayImageActivity.class);
+        img.putExtra("Id", post.getUser_id());
+        img.putExtra("Img", post.getImage_url());
+        startActivity(img);
+    }
 }

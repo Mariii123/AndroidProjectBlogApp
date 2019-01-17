@@ -21,18 +21,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddPostActivity"
-            android:parentActivityName=".HomeActivity"/>
+        <activity
+            android:name=".AddPostActivity"
+            android:parentActivityName=".HomeActivity" />
         <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".VerificationActivity" />
         <activity android:name=".SetupActivity" />
         <activity android:name=".SignInActivity" />
-        <activity android:name=".FeedbackActivity"
-            android:parentActivityName=".HomeActivity"/>
-        <activity android:name=".AddFeedbackActivity"
-            android:parentActivityName=".FeedbackActivity"/>
+        <activity
+            android:name=".FeedbackActivity"
+            android:parentActivityName=".HomeActivity" />
+        <activity
+            android:name=".AddFeedbackActivity"
+            android:parentActivityName=".FeedbackActivity" />
+        <activity android:name=".DisplayImageActivity"
+            android:parentActivityName=".HomeActivity"
+            android:theme="@style/AppTheme.Dark"/>
     </application>
 
 </manifest>

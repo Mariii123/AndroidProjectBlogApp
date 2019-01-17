@@ -84,6 +84,7 @@ public class AddPostActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String des = desc.getText().toString();
                 if (imgUri != null && !TextUtils.isEmpty(des)) {
+                    post.setClickable(false);
                     pProgress.setVisibility(View.VISIBLE);
                     final String random = UUID.randomUUID().toString();
                     final StorageReference filePath = mStorage.child(random + ".jpg");
@@ -96,7 +97,7 @@ public class AddPostActivity extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
 
 
-                                        Map<String, Object> postMap = new HashMap<>();
+                                        final Map<String, Object> postMap = new HashMap<>();
                                         postMap.put("image_url", uri.toString());
                                         postMap.put("desc", desc.getText().toString());
                                         postMap.put("user_id", user_id);
@@ -114,6 +115,7 @@ public class AddPostActivity extends AppCompatActivity {
                                                 } else {
                                                     showMessage("" + task.getException().getMessage());
                                                 }
+                                                post.setClickable(true);
                                                 pProgress.setVisibility(View.INVISIBLE);
                                             }
                                         });
@@ -121,10 +123,13 @@ public class AddPostActivity extends AppCompatActivity {
                                 });
                             } else {
                                 showMessage("" + task.getException().getMessage());
+                                post.setClickable(true);
                                 pProgress.setVisibility(View.INVISIBLE);
-                            }
-                        }
+                            } }
                     });
+                }
+                else {
+                    showMessage("Please select image and write description");
                 }
             }
         });
