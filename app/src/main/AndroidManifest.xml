@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".SignUpActivity">
+        <activity android:name=".SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,9 +37,11 @@
         <activity
             android:name=".AddFeedbackActivity"
             android:parentActivityName=".FeedbackActivity" />
-        <activity android:name=".DisplayImageActivity"
+        <activity
+            android:name=".DisplayImageActivity"
             android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.Dark"/>
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".SignUpActivity"/>
     </application>
 
 </manifest>

@@ -56,14 +56,18 @@ public class FeedbackActivity extends AppCompatActivity {
                 startActivity(addFeed);
             }
         });
-        firestore.collection("Feedbacks").orderBy("ftimestamp", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestore.collection("Feedbacks").orderBy("ftimestamp", Query.Direction.DESCENDING).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot documentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
-                    if (doc.getType() == DocumentChange.Type.ADDED) {
-                        FeedbackList list = doc.getDocument().toObject(FeedbackList.class);
-                        feedbackLists.add(list);
-                        feedbackAdapter.notifyDataSetChanged();
+                if (documentSnapshots != null){
+                    if (!documentSnapshots.isEmpty()) {
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
+                                FeedbackList list = doc.getDocument().toObject(FeedbackList.class);
+                                feedbackLists.add(list);
+                                feedbackAdapter.notifyDataSetChanged();
+                            }
+                        }
                     }
                 }
             }
